@@ -1,0 +1,14 @@
+groups:
+  - name: wordpress-mysql-alerts
+    rules:
+      - alert: WordPressHighCPU
+        expr: rate(container_cpu_usage_seconds_total{container="wordpress"}[5m]) * 100 > 80
+        for: 2m
+        labels:
+          severity: warning
+
+      - alert: WordPressHighMemory
+        expr: container_memory_usage_bytes{container="wordpress"} / container_spec_memory_limit_bytes{container="wordpress"} * 100 > 85
+        for: 2m
+        labels:
+          severity: critical
